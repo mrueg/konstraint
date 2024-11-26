@@ -11,6 +11,7 @@ import (
 
 	"github.com/plexsystems/konstraint/internal/rego"
 
+	"github.com/Masterminds/sprig/v3"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -111,7 +112,7 @@ func runDocCommand(path string) error {
 		appliedTemplate = string(b)
 	}
 
-	t, err := template.New("docs").Parse(appliedTemplate)
+	t, err := template.New("docs").Funcs(sprig.FuncMap()).Parse(appliedTemplate)
 
 	if err != nil {
 		return fmt.Errorf("parsing template: %w", err)
