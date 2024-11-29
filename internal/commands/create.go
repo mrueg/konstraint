@@ -10,7 +10,7 @@ import (
 
 	"github.com/plexsystems/konstraint/internal/rego"
 
-	"github.com/Masterminds/sprig/v3"
+	"github.com/go-sprout/sprout/sprigin"
 	v1 "github.com/open-policy-agent/frameworks/constraint/pkg/apis/templates/v1"
 	"github.com/open-policy-agent/frameworks/constraint/pkg/apis/templates/v1beta1"
 	log "github.com/sirupsen/logrus"
@@ -201,7 +201,7 @@ func runCreateCommand(path string) error {
 }
 
 func renderTemplate(violation rego.Rego, appliedTemplate []byte, _ *log.Entry) ([]byte, error) {
-	t, err := template.New("template").Funcs(sprig.FuncMap()).Parse(string(appliedTemplate))
+	t, err := template.New("template").Funcs(sprigin.FuncMap()).Parse(string(appliedTemplate))
 	if err != nil {
 		return nil, fmt.Errorf("parsing template: %w", err)
 	}
