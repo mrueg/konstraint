@@ -1,11 +1,11 @@
 apiVersion: constraints.gatekeeper.sh/v1beta1
 kind: {{ .Kind }}
 metadata:
-  {{ if .Annotations }}
-  annotations: {{- toYaml .Annotations | nindent 4 }}
+  {{- if .Annotations }}
+  annotations: {{- .Annotations | toIndentYaml 2 | nindent 4 }}
   {{ end -}}
-  {{- if .Labels }}: 
-  labels: {{ toYaml .Labels }}
+  {{- if .Labels }} 
+  labels: {{ .Labels | toIndentYaml 2 | nindent 4 }}
   {{ end -}}
   name: {{ .Name }}
 spec:
@@ -16,7 +16,6 @@ spec:
   {{- end -}}
   {{- if or .Parameters .AnnotationParameters }}
   {{- if .Parameters }}
-  parameters: {{- range $key, $value := .Parameters }}
-  {{ end -}} 
+  parameters: {{- .Parameters | toIndentYaml 2 | nindent 4 }}
   {{ end -}}
   {{ end -}}

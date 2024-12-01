@@ -12,9 +12,9 @@ spec:
         openAPIV3Schema:
           properties:
             {{- if .Parameters }}
-            {{ toYaml .GetOpenAPISchemaProperties }}
+            {{ .GetOpenAPISchemaProperties | toJson | fromJson | toIndentYaml 2 | nindent 12 }}
             {{ else -}}
-            {{ .AnnotationParameters | toJson | fromJson | toYaml | nindent 10 }}
+            {{ .AnnotationParameters | toJson | fromJson | toIndentYaml 2 | nindent 12 }}
             {{ end -}}
       {{- end }}
   targets:
