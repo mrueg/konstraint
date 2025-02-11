@@ -1,0 +1,29 @@
+name: publish-binaries
+
+on:
+  push:
+    tags:
+    - v*.*.*
+
+jobs:
+  build-and-push-binaries:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - name: Create a Release on Github
+        uses: ncipollo/release-action@v1
+        with:
+          generateReleaseNotes: true
+          makeLatest: true
+      - name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@v6
+        with:
+          version: latest
+          args: release --clean
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
